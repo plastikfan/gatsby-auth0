@@ -77,3 +77,8 @@ export const silentAuth = callback => {
   }
   auth.checkSession({}, setSession(callback))
 }
+
+export const logout = () => {
+  localStorage.setItem("isLoggedIn", false)
+  auth.logout()
+}
