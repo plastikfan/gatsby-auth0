@@ -46,6 +46,9 @@ const setSession = (cb = () => { }) => (err, authResult) => {
   }
 
   if (authResult && authResult.accessToken && authResult.idToken) {
+    // navigating back to "/account", is really primitive and is not production
+    // worthy. This would have to be replaced with something more sensible.
+    //
     let expiresAt = authResult.expiresIn * 1000 + new Date().getTime()
     tokens.accessToken = authResult.accessToken
     tokens.idToken = authResult.idToken
@@ -72,6 +75,14 @@ export const getProfile = () => {
 }
 
 export const silentAuth = callback => {
+  // "It would be nice if, when the user refreshed the page, the app remembered if the
+  // user was logged in.The isLoggedIn flag in local storage is part of the solution,
+  // but there are no tokens or user profile information on refresh.It's bad practice
+  // to store these in local storage. To solve this, Auth0 provides a checkSession
+  // function that checks whether a user is logged in and, if so, returns valid tokens
+  // and user profile information for use in the application without requiring user
+  // interaction."
+  //
   if (!isAuthenticated()) {
     return callback()
   }
